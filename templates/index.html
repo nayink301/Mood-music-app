@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mood Music Generator</title>
+</head>
+<body>
+    <h1>🎵 Mood Music Generator</h1>
+    <form method="post">
+        <label>Nickname:</label><br>
+        <input type="text" name="nickname" required><br><br>
+
+        <label>City:</label><br>
+        <input type="text" name="city" required><br><br>
+        <label>Language:</label><br>
+<select name="language" required>
+    <option value="english">English</option>
+    <option value="hindi">Hindi</option>
+    <option value="telugu">Telugu</option>
+    <option value="tamil">Tamil</option>
+    <option value="punjabi">Punjabi</option>
+</select><br><br>
+
+<label>Year Range:</label><br>
+<select name="year_range">
+    <option value="">--Select--</option>
+    <option value="1980-1990">1980–1990</option>
+    <option value="1990-2000">1990–2000</option>
+    <option value="2000-2010">2000–2010</option>
+    <option value="2010-2020">2010–2020</option>
+    <option value="2020-2030">2020–2030</option>
+</select><br><br>
+
+
+
+        <label>Mood:</label><br>
+        <select name="mood" required>
+            <option value="happy">Happy</option>
+            <option value="sad">Sad</option>
+            <option value="relaxed">Relaxed</option>
+            <option value="energetic">Energetic</option>
+            <option value="nostalgic">Nostalgic</option>
+            <option value="romantic">Romantic</option>      
+            <option value="devotional">Devotional</option>               
+        </select><br><br>
+
+        <label>Age:</label><br>
+        <input type="number" name="age" required><br><br>
+
+        <button type="submit">Suggest Playlist</button>
+    </form>
+
+    {% if result %}
+        <h2>🎧 Hello {{nickname}}!</h2>
+        <p>Current Weather in {{city}}: {{weather}}</p>
+        {% if playlist %}
+        <p>🔎 Search Used: <em>{{ search_used }}</em></p>
+        <p><a href="{{ playlist }}" target="_blank">🎧 Open Playlist</a></p>
+        {% else %}
+        <p>❗No exact match found.</p>
+        <p>👉 Showing: <strong>{{ search_used }}</strong></p>
+        {% endif %}
+
+    {% endif %}
+
+    <footer>
+        <p>Powered by Flask and Spotify API</p>
+</body>
+</html>

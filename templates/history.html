@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Playlist History</title>
+</head>
+<body>
+    <h1>🎧 User Session History</h1>
+    <table border="1">
+        <tr>
+            <th>Timestamp</th>
+            <th>User</th>
+            <th>Query</th>
+            <th>Playlist</th>
+        </tr>
+        {% for entry in history %}
+        <tr>
+            <td>{{ entry.timestamp }}</td>
+            <td>{{ entry.user }}</td>
+            <td>{{ entry.query }}</td>
+            <td>
+                {% if entry.playlist != "None" %}
+                    <a href="{{ entry.playlist }}" target="_blank">Listen</a>
+                {% else %}
+                    No Match
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
