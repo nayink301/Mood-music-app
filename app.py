@@ -87,7 +87,12 @@ def get_playlist_link(category, language, year_range):
                 items = results.get("playlists", {}).get("items", [])
                 if items:
                     print(f"[🔍 Match Level {i+1}] Query: {query}")
-                    return items[0]["external_urls"]["spotify"], query
+                    playlist_url = items[0]["external_urls"]["spotify"]
+                    playlist_id = playlist_url.split("/")[-1].split("?")[0]
+                    print(f"[✅ Level {i+1}] Query: {query}")
+                    print("🔗", playlist_url)
+                    print("🆔", playlist_id)
+                    return playlist_url,playlist_id, query
             except Exception as inner_error:
                 print(f"⚠️ Error searching for query '{query}': {inner_error}")
                 continue  # move on to next query
@@ -141,7 +146,7 @@ def index():
 
         weather_type = get_weather(city, os.getenv("OPENWEATHER_API_KEY"))
         category = decide_music_category(mood, weather_type, age)
-        playlist_url, search_used = get_playlist_link(category, language, year_range)
+        playlist_url,playlist_id,search_used = get_playlist_link(category, language, year_range)
         
 
         if playlist_url:
@@ -152,12 +157,14 @@ def index():
                                     mood=mood,
                                     age=age,
                                     language=language,
+                                    playlist_id=playlist_id,
                                     playlist=playlist_url,
                                     search_used=search_used)
         else:
             return render_template("index.html",
                                    result=True,
                                    playlist=None,
+                                   playlist_id=playlist_id,
                                    search_used=search_used)
 
     return render_template("index.html", result=False)
