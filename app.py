@@ -140,7 +140,15 @@ def index():
         nickname = request.form.get("nickname", "Guest")
         city = request.form.get("city", "")
         mood = request.form.get("mood", "").lower()
-        age = int(request.form.get("age", 25))
+        age_label = request.form.get("age", "adult")  # default to adult
+        age_group_map = {
+            "teen": 17,
+            "young_adult": 25,
+            "adult": 35,
+            "middle_aged": 50,
+            "senior": 65  # assuming senior is above 65
+        }
+        age = age_group_map.get(age_label, 35)  # default to adult if not foun
         language = request.form.get("language", "").lower()
         year_range = request.form.get("year_range", "")
 
