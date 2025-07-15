@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mood-Based Music Player 🎵</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <style>
     body {
       background: linear-gradient(to right, #fbc2eb, #a6c1ee);
       min-height: 100vh;
       display: flex;
       align-items: center;
-      justify-content: center;
-      padding: 20px;
+      justify-content: flex-start;
+      flex-direction: column;
+      padding: 2rem;
     }
     .card {
       border-radius: 1rem;
@@ -23,7 +23,21 @@
 <body>
   <div class="container">
     <div class="card p-4">
-      <h2 class="text-center mb-4">🎧 Mood-Based Music Generator</h2>
+      <div class="sound-wave">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+       <h2 class="text-center mb-4">&nbsp;&nbsp;&nbsp;&nbsp;G<img src="{{ url_for('static', filename='images/goat.png') }}" alt="GOAT Logo" width="80" height="80">AT Mp3</h2>
+      <div class="sound-wave">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
 
       <form method="POST" action="/">
         <div class="row g-3">
@@ -50,10 +64,10 @@
             <select name="age" type="number" class="form-select" required>
             <option value="">Select age group</option>
             <option value="teen">Teen (13-19)</option>
-            <option value="young_adult">Young Adult (20-35)</option>
-            <option value="adult">Adult (36-50)</option>
-            <option value="middle_aged">Middle Aged (51-65)</option>
-            <option value="senior">Senior (66+)</option>
+            <option value="young_adult">Young Adult (20-29)</option>
+            <option value="adult">Adult (30-39)</option>
+            <option value="middle_aged">Middle Aged (40-59)</option>
+            <option value="senior">Senior (60+)</option>
             </select>
           </div>
           <div class="col-md-6">
@@ -86,25 +100,28 @@
       </form>
 
       {% if result %}
-      <div class="mt-5 text-center">
-        {% if playlist %}
-          <h5>Hello {{ nickname }}! Here's your mood-based playlist:</h5>
-          <p><em>{{ search_used }}</em></p>
-            {% if playlist_id %}
-            <div class="text-center mt-4">
-                <iframe src="https://open.spotify.com/embed/playlist/{{ playlist_id }}"
-                        width="100%" height="380" frameborder="0"
-                        allow="encrypted-media" allowtransparency="true"></iframe>
-                <p>DEBUG: playlist_id = {{ playlist_id }}</p>
-                <p class="mt-2">
-                    <a href="https://open.spotify.com/playlist/{{ playlist_id }}" target="_blank">🎧 Open in Spotify</a></p>
-            {% else %}
-                <p>No playlist found to embed.</p>      
+      <div class="result-section">
+        {% if result %}
+          {% if playlist %}
+            <div class="info">
+              <p>Weather in {{ city }}: <strong>{{ weather }}</strong></p>
+              Now playing: <strong>{{ search_used }}</strong>
+            </div>
+            <div class="spotify-embed">
+              <iframe 
+                src="https://open.spotify.com/embed/playlist/{{ playlist_id }}?utm_source=generator&theme=0"
+                width="100%" height="80" allowtransparency="true" allow="encrypted-media"></iframe>
+            </div>
+            <div class="sound-wave">
+              <span></span><span></span><span></span><span></span><span></span>
+            </div>
+          {% else %}
+            <div class="info">
+              Sorry, no matching playlist. Showing trending instead!
+            </div>
+          {% endif %}
         {% endif %}
-          <h5>No playlist found. Showing trending {{ language }} music instead.</h5>
-          <p>{{ search_used }}</p>
-        {% endif %}
-      </div>
+      </div>      
       {% endif %}
     </div>
   </div>
